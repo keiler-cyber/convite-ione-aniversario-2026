@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#073b32">
+  <meta name="description" content="Aniversário da Ione · 14 de novembro às 14h">
+  <meta property="og:title" content="Aniversário da Ione">
+  <meta property="og:image" content="convite-exato.png">
+  <title>Aniversário da Ione</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Sacramento&display=swap" rel="stylesheet">
+  <style>
+    :root { color-scheme: dark; background: #073b32; }
+    * { box-sizing: border-box; }
+    html, body { min-width: 280px; min-height: 100%; margin: 0; }
+    body {
+      display: grid;
+      min-height: 100dvh;
+      place-items: center;
+      overflow-x: hidden;
+      background: radial-gradient(ellipse at 50% 8%, #14553e, #073b32 66%);
+    }
+    .invite {
+      position: relative;
+      width: min(100vw, 640px);
+      margin: 0 auto;
+      line-height: 0;
+      isolation: isolate;
+    }
+    .artwork { display: block; width: 100%; height: auto; }
+    .hotspot {
+      position: absolute;
+      z-index: 1;
+      display: block;
+      border: 0;
+      border-radius: 12px;
+      padding: 0;
+      background: transparent;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .hotspot:focus-visible { outline: 3px solid #fff5cd; outline-offset: 2px; }
+    .map { top: 69.4%; left: 55%; width: 34%; height: 4.5%; }
+    .rsvp { top: 80.8%; left: 53.5%; width: 37%; height: 5.2%; }
+    .pix { top: 92.1%; left: 71%; width: 18%; height: 3.8%; border-radius: 28px; }
+    .gift-rewrite {
+      position: absolute;
+      z-index: 2;
+      top: 87.6%;
+      left: 51.3%;
+      display: flex;
+      width: 42.5%;
+      height: 10%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      border: 1px solid #dfb64f;
+      border-radius: 999px;
+      padding: 3px 6px;
+      color: #093d33;
+      background: #fff4d8;
+      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .6);
+      text-align: center;
+    }
+    .gift-rewrite p { margin: 0; line-height: 1.08; }
+    .gift-lead { color: #093d33; font: 700 clamp(7px, 2vw, 12px)/1.08 Georgia, serif; }
+    .gift-follow { color: #315449; font: 400 clamp(5.5px, 1.55vw, 9px)/1.08 Georgia, serif; }
+    .gift-rewrite .pix-link {
+      border: 0;
+      padding: 0;
+      color: #866019;
+      background: transparent;
+      font: 600 clamp(5px, 1.35vw, 8px)/1 Georgia, serif;
+      cursor: pointer;
+    }
+    .audio-fallback {
+      position: fixed;
+      z-index: 3;
+      right: max(14px, env(safe-area-inset-right));
+      bottom: max(14px, env(safe-area-inset-bottom));
+      display: grid;
+      width: 46px;
+      height: 46px;
+      place-items: center;
+      border: 1px solid rgba(255, 242, 190, .8);
+      border-radius: 50%;
+      color: #fff3cc;
+      background: rgba(5, 48, 37, .88);
+      box-shadow: 0 3px 14px rgba(0, 0, 0, .28);
+      font: 20px/1 Georgia, serif;
+      cursor: pointer;
+    }
+    .audio-fallback[hidden] { display: none; }
+    .cover {
+      position: fixed;
+      z-index: 5;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: radial-gradient(ellipse at 82% 72%, rgba(201, 168, 64, .18), transparent 16rem),
+        radial-gradient(ellipse at 20% 12%, #14553e, #073b32 66%);
+      animation: cover-in .45s ease-out both;
+    }
+    .cover[hidden] { display: none; }
+    .cover-content { width: min(100%, 430px); text-align: center; }
+    .cover-note { margin: 0 0 26px; color: #e6bd52; font: 72px/1 Georgia, serif; }
+    .cover-title { margin: 0; color: #fff3dc; font: 34px/1.1 "DM Serif Display", Georgia, serif; }
+    .cover-name { display: block; margin-top: 7px; color: #e5b541; font: 92px/.95 "Sacramento", cursive; }
+    .cover-prompt { margin: 18px 0 28px; color: #f7f1e4; font: 20px/1.45 "DM Serif Display", Georgia, serif; }
+    .cover-button {
+      min-width: 230px;
+      min-height: 68px;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 28px;
+      color: #073b32;
+      background: linear-gradient(115deg, #d5a533, #f8e9ae 48%, #d7aa3b);
+      box-shadow: 0 9px 24px rgba(0, 0, 0, .24);
+      font: 600 20px/1 "DM Serif Display", Georgia, serif;
+      cursor: pointer;
+      transition: box-shadow .18s ease;
+    }
+    .cover-button:hover { box-shadow: 0 12px 30px rgba(0, 0, 0, .3); }
+    @keyframes cover-in { from { opacity: 0; } to { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { .cover { animation: none; } .cover-button { transition: none; } }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      clip-path: inset(50%);
+    }
+    @media (min-width: 700px) {
+      body { align-items: center; padding: 18px 0; }
+      .invite { width: min(calc(100vw - 36px), 580px); }
+    }
+  </style>
+</head>
+<body>
+  <section class="cover" id="cover" aria-label="Capa do convite">
+    <div class="cover-content">
+      <p class="cover-note" aria-hidden="true">♫</p>
+      <h1 class="cover-title">Aniversário da<span class="cover-name">Ione</span></h1>
+      <p class="cover-prompt">Toque para abrir o convite</p>
+      <button class="cover-button" id="open-invite" type="button">Abrir convite</button>
+    </div>
+  </section>
+
+  <main class="invite" aria-label="Aniversário da Ione">
+    <img class="artwork" src="convite-exato.png" alt="Convite do aniversário da Ione">
+    <a class="hotspot map" href="https://www.google.com/maps/search/?api=1&query=Alameda+Grandola%2C+181%2C+Vale+das+Laranjeiras%2C+Indaiatuba+-+SP" aria-label="Abrir localização no mapa" target="_blank" rel="noreferrer"></a>
+    <a class="hotspot rsvp" href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=tavjXQKm4UG6fWMQwWUUeNwlcEossL5IvBkshyCP-iZUN0pLMkgzTjdRWTNUTVpYNVRJWDQ1MlA2Ri4u" aria-label="Confirmar presença" target="_blank" rel="noreferrer"></a>
+    <aside class="gift-rewrite">
+      <p class="gift-lead">Sua presença é o meu maior presente.</p>
+      <p class="gift-follow">Mas se quiser mimar a aniversariante e estiver sem ideia:</p>
+      <button class="pix-link" id="copy-pix" type="button" aria-label="Copiar chave Pix 11995521064">Pix: 11995521064 ⧉</button>
+    </aside>
+    <audio id="music" src="audio_apenas_musica.mp3" playsinline preload="auto"></audio>
+    <button class="audio-fallback" id="start-music" type="button" aria-label="Tocar música" title="Tocar música" hidden>♫</button>
+    <span class="sr-only" id="status" aria-live="polite"></span>
+  </main>
+  <script>
+    const audio = document.querySelector('#music');
+    const cover = document.querySelector('#cover');
+    const openButton = document.querySelector('#open-invite');
+    const startButton = document.querySelector('#start-music');
+    const status = document.querySelector('#status');
+
+    async function startMusic() {
+      try {
+        await audio.play();
+        startButton.hidden = true;
+      } catch {
+        startButton.hidden = false;
+      }
+    }
+
+    openButton.addEventListener('click', () => {
+      cover.hidden = true;
+      startMusic();
+    });
+    startButton.addEventListener('click', startMusic);
+
+    document.querySelector('#copy-pix').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText('11995521064');
+        status.textContent = 'Chave Pix copiada.';
+      } catch {
+        const field = document.createElement('textarea');
+        field.value = '11995521064';
+        field.style.position = 'fixed';
+        field.style.opacity = '0';
+        document.body.append(field);
+        field.select();
+        document.execCommand('copy');
+        field.remove();
+        status.textContent = 'Chave Pix copiada.';
+      }
+    });
+  </script>
+</body>
+</html>
