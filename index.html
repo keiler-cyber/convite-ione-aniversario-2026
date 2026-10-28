@@ -99,39 +99,6 @@
       cursor: pointer;
     }
     .audio-fallback[hidden] { display: none; }
-    .cover {
-      position: fixed;
-      z-index: 5;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      background: radial-gradient(ellipse at 82% 72%, rgba(201, 168, 64, .18), transparent 16rem),
-        radial-gradient(ellipse at 20% 12%, #14553e, #073b32 66%);
-      animation: cover-in .45s ease-out both;
-    }
-    .cover[hidden] { display: none; }
-    .cover-content { width: min(100%, 430px); text-align: center; }
-    .cover-note { margin: 0 0 26px; color: #e6bd52; font: 72px/1 Georgia, serif; }
-    .cover-title { margin: 0; color: #fff3dc; font: 34px/1.1 "DM Serif Display", Georgia, serif; }
-    .cover-name { display: block; margin-top: 7px; color: #e5b541; font: 92px/.95 "Sacramento", cursive; }
-    .cover-prompt { margin: 18px 0 28px; color: #f7f1e4; font: 20px/1.45 "DM Serif Display", Georgia, serif; }
-    .cover-button {
-      min-width: 230px;
-      min-height: 68px;
-      border: 0;
-      border-radius: 999px;
-      padding: 14px 28px;
-      color: #073b32;
-      background: linear-gradient(115deg, #d5a533, #f8e9ae 48%, #d7aa3b);
-      box-shadow: 0 9px 24px rgba(0, 0, 0, .24);
-      font: 600 20px/1 "DM Serif Display", Georgia, serif;
-      cursor: pointer;
-      transition: box-shadow .18s ease;
-    }
-    .cover-button:hover { box-shadow: 0 12px 30px rgba(0, 0, 0, .3); }
-    @keyframes cover-in { from { opacity: 0; } to { opacity: 1; } }
-    @media (prefers-reduced-motion: reduce) { .cover { animation: none; } .cover-button { transition: none; } }
     .sr-only {
       position: absolute;
       width: 1px;
@@ -148,15 +115,6 @@
   </style>
 </head>
 <body>
-  <section class="cover" id="cover" aria-label="Capa do convite">
-    <div class="cover-content">
-      <p class="cover-note" aria-hidden="true">♫</p>
-      <h1 class="cover-title">Aniversário da<span class="cover-name">Ione</span></h1>
-      <p class="cover-prompt">Toque para abrir o convite</p>
-      <button class="cover-button" id="open-invite" type="button">Abrir convite</button>
-    </div>
-  </section>
-
   <main class="invite" aria-label="Aniversário da Ione">
     <img class="artwork" src="convite-exato.png" alt="Convite do aniversário da Ione">
     <a class="hotspot map" href="https://www.google.com/maps/search/?api=1&query=Alameda+Grandola%2C+181%2C+Vale+das+Laranjeiras%2C+Indaiatuba+-+SP" aria-label="Abrir localização no mapa" target="_blank" rel="noreferrer"></a>
@@ -172,8 +130,6 @@
   </main>
   <script>
     const audio = document.querySelector('#music');
-    const cover = document.querySelector('#cover');
-    const openButton = document.querySelector('#open-invite');
     const startButton = document.querySelector('#start-music');
     const status = document.querySelector('#status');
 
@@ -186,10 +142,13 @@
       }
     }
 
-    openButton.addEventListener('click', () => {
-      cover.hidden = true;
-      startMusic();
-    });
+    // Tenta tocar ao abrir; se o navegador bloquear, toca no primeiro toque em qualquer lugar.
+    startMusic();
+    const unlock = () => {
+      if (audio.paused) startMusic();
+      ['pointerdown', 'touchend', 'keydown'].forEach(e => document.removeEventListener(e, unlock));
+    };
+    ['pointerdown', 'touchend', 'keydown'].forEach(e => document.addEventListener(e, unlock));
     startButton.addEventListener('click', startMusic);
 
     document.querySelector('#copy-pix').addEventListener('click', async () => {
