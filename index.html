@@ -17,7 +17,7 @@
   <title>Aniversário da Ione</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Sacramento&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Serif+Text&family=Sacramento&display=swap" rel="stylesheet">
   <style>
     :root { color-scheme: dark; background: #073b32; }
     * { box-sizing: border-box; }
@@ -35,6 +35,7 @@
       margin: 0 auto;
       line-height: 0;
       isolation: isolate;
+      container-type: inline-size;
     }
     .artwork { display: block; width: 100%; height: auto; }
     .hotspot {
@@ -50,16 +51,60 @@
     }
     .hotspot:focus-visible { outline: 3px solid #fff5cd; outline-offset: 2px; }
     .map { top: 69.4%; left: 55%; width: 34%; height: 4.5%; }
-    .rsvp { top: 80.8%; left: 53.5%; width: 37%; height: 5.2%; }
-    .pix { top: 92.1%; left: 71%; width: 18%; height: 3.8%; border-radius: 28px; }
+    .rsvp-card {
+      position: absolute;
+      z-index: 2;
+      top: 75%;
+      left: 45.2%;
+      display: flex;
+      width: 52.6%;
+      height: 13.5%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.3cqw;
+      border: 2px solid #dfb64f;
+      border-radius: 4cqw;
+      color: #093d33;
+      background: linear-gradient(160deg, #fffaf0, #fbefd2);
+      box-shadow: 0 1cqw 3cqw rgba(0, 0, 0, .35), inset 0 0 0 3px rgba(255, 255, 255, .7);
+      text-align: center;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .rsvp-card:focus-visible { outline: 3px solid #fff5cd; outline-offset: 2px; }
+    .rsvp-title { display: flex; align-items: center; gap: 1.6cqw; font: 4.3cqw/1 "DM Serif Display", Georgia, serif; }
+    .rsvp-title svg { width: 5.4cqw; height: 5.4cqw; flex: none; }
+    .rsvp-date { color: #315449; font: 2.6cqw/1.15 "DM Serif Text", Georgia, serif; }
+    .rsvp-date b { color: #7a2f1d; }
+    .rsvp-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.4cqw;
+      margin-top: .4cqw;
+      border-radius: 999px;
+      padding: 1.5cqw 5.5cqw;
+      color: #fff6dc;
+      background: linear-gradient(180deg, #145c48, #073b32);
+      box-shadow: 0 .8cqw 1.8cqw rgba(0, 0, 0, .3);
+      font: 700 3.6cqw/1 Georgia, serif;
+      letter-spacing: .03em;
+      animation: salta 1.4s ease-in-out infinite;
+    }
+    @keyframes salta {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-1.3cqw); }
+      45% { transform: translateY(.2cqw); }
+    }
+    @media (prefers-reduced-motion: reduce) { .rsvp-button { animation: none; } }
     .gift-rewrite {
       position: absolute;
       z-index: 2;
-      top: 87.6%;
-      left: 51.3%;
+      top: 88.9%;
+      left: 49.6%;
       display: flex;
-      width: 42.5%;
-      height: 10%;
+      width: 46%;
+      height: 9.6%;
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -73,14 +118,14 @@
       text-align: center;
     }
     .gift-rewrite p { margin: 0; line-height: 1.08; }
-    .gift-lead { color: #093d33; font: 700 clamp(7px, 2vw, 12px)/1.08 Georgia, serif; }
-    .gift-follow { color: #315449; font: 400 clamp(5.5px, 1.55vw, 9px)/1.08 Georgia, serif; }
+    .gift-lead { color: #093d33; font: 700 2.2cqw/1.08 Georgia, serif; }
+    .gift-follow { color: #315449; font: 400 1.7cqw/1.1 Georgia, serif; }
     .gift-rewrite .pix-link {
       border: 0;
       padding: 0;
       color: #866019;
       background: transparent;
-      font: 600 clamp(5px, 1.35vw, 8px)/1 Georgia, serif;
+      font: 600 1.65cqw/1 Georgia, serif;
       cursor: pointer;
     }
     .audio-fallback {
@@ -114,10 +159,28 @@
     }
     .cover[hidden] { display: none; }
     .cover-content { width: min(100%, 430px); text-align: center; }
-    .cover-note { margin: 0 0 26px; color: #e6bd52; font: 72px/1 Georgia, serif; }
+    .cover-note { margin: 0 0 22px; color: #e6bd52; font: 72px/1 Georgia, serif; }
     .cover-title { margin: 0; color: #fff3dc; font: 34px/1.1 "DM Serif Display", Georgia, serif; }
-    .cover-name { display: block; margin-top: 7px; color: #e5b541; font: 92px/.95 "Sacramento", cursive; }
-    .cover-prompt { margin: 18px 0 28px; color: #f7f1e4; font: 20px/1.45 "DM Serif Display", Georgia, serif; }
+    .cover-name { position: relative; display: inline-block; margin-top: 7px; padding: 0 44px; color: #e5b541; font: 92px/.95 "Sacramento", cursive; }
+    .cover-name svg { position: absolute; top: 32%; width: 34px; height: 34px; }
+    .cover-name .raio-esq { left: 0; }
+    .cover-name .raio-dir { right: 0; transform: scaleX(-1); }
+    .cover-urgente { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 26px 0 6px; }
+    .cover-urgente svg { width: 44px; height: 44px; flex: none; }
+    .cover-urgente strong {
+      padding: 4px 16px 6px;
+      color: #073b32;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 60' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23d5a533'/%3E%3Cstop offset='.5' stop-color='%23f8e9ae'/%3E%3Cstop offset='1' stop-color='%23d7aa3b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23g)' d='M4 10 C60 3 140 8 296 4 L290 18 L299 26 L292 38 C297 46 290 52 296 57 C200 60 110 55 6 58 L10 46 L1 36 C7 28 2 20 8 16 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;
+      font: italic 28px/1.1 "DM Serif Display", Georgia, serif;
+      white-space: nowrap;
+    }
+    .cover-prompt { margin: 0 0 30px; color: #f7f1e4; font: 20px/1.35 "DM Serif Text", Georgia, serif; }
+    .cover-prompt em {
+      color: #e9bf52;
+      font: italic 25px/1 "DM Serif Display", Georgia, serif;
+      text-decoration: underline 2px #e9bf52;
+      text-underline-offset: 6px;
+    }
     .cover-button {
       min-width: 230px;
       min-height: 68px;
@@ -153,8 +216,12 @@
   <section class="cover" id="cover" aria-label="Capa do convite">
     <div class="cover-content">
       <p class="cover-note" aria-hidden="true">♫</p>
-      <h1 class="cover-title">Aniversário da<span class="cover-name">Ione</span></h1>
-      <p class="cover-prompt">Toque para abrir o convite</p>
+      <h1 class="cover-title">Aniversário da<br><span class="cover-name"><svg class="raio-esq" viewBox="0 0 34 34" aria-hidden="true"><path d="M6 6l10 8M3 18h12M7 29l9-6" stroke="#e5b541" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg>Ione<svg class="raio-dir" viewBox="0 0 34 34" aria-hidden="true"><path d="M6 6l10 8M3 18h12M7 29l9-6" stroke="#e5b541" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></span></h1>
+      <p class="cover-urgente">
+        <svg viewBox="0 0 44 44" aria-hidden="true" fill="none" stroke="#e5b541" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="9" width="34" height="30" rx="6"/><path d="M5 18h34M14 4v9M30 4v9M15 28l5 5 9-10"/></svg>
+        <strong>Hoje é o último dia</strong>
+      </p>
+      <p class="cover-prompt">para confirmar sua presença e nos ajudar a garantir a organização desse <em>dia incrível!</em></p>
       <button class="cover-button" id="open-invite" type="button">Abrir convite</button>
     </div>
   </section>
@@ -162,7 +229,11 @@
   <main class="invite" aria-label="Aniversário da Ione">
     <img class="artwork" src="convite-exato.png" alt="Convite do aniversário da Ione">
     <a class="hotspot map" href="https://www.google.com/maps/search/?api=1&query=Alameda+Grandola%2C+181%2C+Vale+das+Laranjeiras%2C+Indaiatuba+-+SP" aria-label="Abrir localização no mapa" target="_blank" rel="noreferrer"></a>
-    <a class="hotspot rsvp" href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=tavjXQKm4UG6fWMQwWUUeNwlcEossL5IvBkshyCP-iZUQ0dBWEs3SEY4UkVVU0o5T1JZSExHMzk1SS4u" aria-label="Confirmar presença" target="_blank" rel="noreferrer"></a>
+    <a class="rsvp-card" href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=tavjXQKm4UG6fWMQwWUUeNwlcEossL5IvBkshyCP-iZUQ0dBWEs3SEY4UkVVU0o5T1JZSExHMzk1SS4u" target="_blank" rel="noreferrer">
+      <span class="rsvp-title"><svg viewBox="0 0 24 24" aria-hidden="true" fill="#093d33"><circle cx="12" cy="7" r="3.4"/><circle cx="5" cy="9" r="2.6"/><circle cx="19" cy="9" r="2.6"/><path d="M5.5 20c0-3.8 2.9-6.6 6.5-6.6s6.5 2.8 6.5 6.6zM0 20c0-3 1.9-5.2 4.6-5.2 1 0 1.8.3 2.5.7A8 8 0 0 0 4.3 20zM24 20c0-3-1.9-5.2-4.6-5.2-1 0-1.8.3-2.5.7a8 8 0 0 1 2.8 4.5z"/></svg>Confirme agora!</span>
+      <span class="rsvp-date">Confirmação de presença até <b>hoje, 09/11</b></span>
+      <span class="rsvp-button"><svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>CLIQUE AQUI</span>
+    </a>
     <aside class="gift-rewrite">
       <p class="gift-lead">Sua presença é o meu maior presente.</p>
       <p class="gift-follow">Mas se quiser mimar a aniversariante e estiver sem ideia:</p>
